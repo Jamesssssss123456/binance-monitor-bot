@@ -5,7 +5,6 @@ from datetime import datetime
 from telegram import Bot
 import os
 
-# 讀取環境變數（Render 中設定）
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 bot = Bot(token=TELEGRAM_TOKEN)
@@ -15,13 +14,20 @@ OI_SPIKE_RATIO = 2.0
 
 def get_usdt_symbols():
     url = 'https://fapi.binance.com/fapi/v1/exchangeInfo'
-    response = requests.get(url, timeout=10)
-    data = response.json()
-    symbols = [s['symbol'] for s in data['symbols']
-               if s['contractType'] == 'PERPETUAL'
-               and s['quoteAsset'] == 'USDT'
-               and not s['symbol'].startswith(('BTC', 'ETH'))]
-    return symbols
+    try:
+        response = requests.get(url, timeout=10)
+        data = response.json()
+        if 'symbols' not in data:
+            print(f"❌ Binance API 回傳異常: {data}")
+            return []
+        symbols = [s['symbol'] for s in data['symbols']
+                   if s['contractType'] == 'PERPETUAL'
+                   and s['quoteAsset'] == 'USDT'
+                   and not s['symbol'].startswith(('BTC', 'ETH'))]
+        return symbols
+    except Exception as e:
+        print(f"[get_usdt_symbols] 發生錯誤: {e}")
+        return []
 
 def fetch_data(symbol):
     try:
@@ -49,7 +55,8 @@ def fetch_data(symbol):
             'oi_ratio': oi_ratio,
             'time': datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')
         }
-    except Exception:
+    except Exception as e:
+        print(f"[fetch_data] {symbol} 發生錯誤: {e}")
         return None
 
 def check_and_alert(data):
@@ -71,6 +78,7 @@ def check_and_alert(data):
 def main_loop():
     while True:
         symbols = get_usdt_symbols()
+        print(f"✅ 獲取到 {len(symbols)} 個 USDT 合約")
         for sym in symbols:
             data = fetch_data(sym)
             if data:
