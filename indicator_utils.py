@@ -1,17 +1,9 @@
+import requests
 
-def fetch_binance_snapshot():
-    # Dummy Binance snapshot structure (replace with real API calls)
-    return {
-        'oi_change_pct': 0.15,
-        'basis_percent_negative': 0.08,
-        'top_trader_account_ls_ratio': 0.4,
-        'top_trader_position_ls_ratio': 0.5
-    }
+def fetch_binance_snapshot(symbol='VOXELUSDT'):
+    url = f"https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol={symbol}&period=5m&limit=1"
+    return requests.get(url).json()
 
 def extract_features(snapshot):
-    return [
-        snapshot['oi_change_pct'],
-        snapshot['basis_percent_negative'],
-        snapshot['top_trader_account_ls_ratio'],
-        snapshot['top_trader_position_ls_ratio']
-    ]
+    # 模擬特徵擷取
+    return [0.5, 0.2, 0.3, 0.1, 0.05]
