@@ -1,14 +1,4 @@
+
 # Binance Monitor Bot
 
-This bot monitors altcoin short squeeze signals and sends alerts via Telegram. Deploy on Render.
-
-## Features
-- OI/Basis/LR/RandomForest logic
-- Alert when squeeze is detected
-
-## Setup
-1. Upload to GitHub
-2. Connect to Render
-3. Add environment vars: `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID`
-4. Bot auto-runs every 5 mins
-
+實時監控 Binance 合約數據，根據 AI 索罗斯模型預測轧空與崩盤信號，並通過 Telegram 推送。
