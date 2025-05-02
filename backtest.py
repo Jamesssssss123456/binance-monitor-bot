@@ -30,4 +30,4 @@ def run_backtest_result():
     return f"📊 回测完成：共检测 {total} 次信号，胜率为 {win_rate:.2f}%，共盈利 {total_profit:.2f} USDT"
 "多头信号: {long_signals} 次"
 "空头信号: {short_signals} 次"
-✅ 胜率估计：{win_rate}%"
+胜率估计：{win_rate}%"
