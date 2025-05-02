@@ -1,7 +1,8 @@
 
-APScheduler==3.10.4
+APScheduler==3.6.3
 requests
 joblib
 scikit-learn
 pandas
 python-telegram-bot==13.15
+
