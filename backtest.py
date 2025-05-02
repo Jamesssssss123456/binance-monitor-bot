@@ -27,7 +27,7 @@ def run_backtest_result():
                 short_signals += 1
     total = long_signals + short_signals
     win_rate = round(100 * long_signals / total, 2) if total > 0 else 0
-    return f"📊 回测完成：共检测 {total} 次信号
+    return f"📊 回测完成：共检测 {total} 次信号，胜率为 {win_rate:.2f}%，共盈利 {total_profit:.2f} USDT"
 🟢 多头：{long_signals} 次
 🔴 空头：{short_signals} 次
 ✅ 胜率估计：{win_rate}%"
