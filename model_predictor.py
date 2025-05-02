@@ -1,6 +1,6 @@
-import pickle
+
+import joblib
 
 def load_model_and_predict(features):
-    with open("ai_soros_model.pkl", "rb") as f:
-        model = pickle.load(f)
+    model = joblib.load("ai_soros_model.pkl")
     return model.predict([features])[0]

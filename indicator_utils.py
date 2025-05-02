@@ -1,9 +1,19 @@
-import requests
 
-def fetch_binance_snapshot(symbol='VOXELUSDT'):
-    url = f"https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol={symbol}&period=5m&limit=1"
-    return requests.get(url).json()
+def fetch_binance_snapshot():
+    # 模擬 VOXEL 指標數據
+    return {
+        "long_short_account_ratio": 0.85,
+        "top_trader_account_ls_ratio": 0.40,
+        "top_trader_position_ls_ratio": 0.38,
+        "oi_change_pct": 0.52,
+        "basis_percent": -1.20,
+    }
 
 def extract_features(snapshot):
-    # 模擬特徵擷取
-    return [0.5, 0.2, 0.3, 0.1, 0.05]
+    return [
+        snapshot["long_short_account_ratio"],
+        snapshot["top_trader_account_ls_ratio"],
+        snapshot["top_trader_position_ls_ratio"],
+        snapshot["oi_change_pct"],
+        abs(snapshot["basis_percent"]) if snapshot["basis_percent"] < 0 else 0
+    ]

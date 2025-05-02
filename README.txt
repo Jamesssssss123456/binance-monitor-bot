@@ -1,1 +1,1 @@
-This is the full version of the Binance monitoring bot integrated with the short squeeze strategy and AI Soros model.
+此為AI索罗斯策略 + Telegram /backtest 回测功能最終整合版。
