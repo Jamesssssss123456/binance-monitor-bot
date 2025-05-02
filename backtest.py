@@ -1,22 +1,17 @@
-# backtest.py
-
 import pandas as pd
-from model_predictor import predict_signal
-from indicator_utils import calculate_indicators
+from model_predictor import load_model_and_predict
+from indicator_utils import extract_features
 
-def backtest_from_csv(csv_file):
-    df = pd.read_csv(csv_file)
-    df['signal'] = None
+df = pd.read_csv("voxel_training_dataset.csv")
+correct = 0
+total = 0
 
-    for i in range(10, len(df)):
-        sample_data = {
-            'oi': df['oi'][i-10:i].tolist(),
-            'basis_percent': df['basis_percent'][i-10:i].tolist(),
-            'top_trader_account_ls_ratio': df['top_trader_account_ls_ratio'][i-10:i].tolist(),
-            'top_trader_position_ls_ratio': df['top_trader_position_ls_ratio'][i-10:i].tolist()
-        }
-        indicators = calculate_indicators(sample_data)
-        signal = predict_signal(indicators)
-        df.at[i, 'signal'] = signal
+for _, row in df.iterrows():
+    features = [row['f1'], row['f2'], row['f3'], row['f4'], row['f5']]
+    label = row['label']
+    prediction = load_model_and_predict(features)
+    if prediction == label:
+        correct += 1
+    total += 1
 
-    return df[['timestamp', 'mark_price', 'signal']]
+print(f"Accuracy: {correct / total:.2%}")
